@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<title>Luxeria OSINT</title>
-		<link rel="stylesheet" type="text/css" href="stylesheets/style.css">
+		<!--<link rel="stylesheet" type="text/css" href="stylesheets/style.css">-->
 		
 		<script src="http://maps.googleapis.com/maps/api/js"></script>
 		<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
@@ -23,14 +23,14 @@
 	
 	<body>
 		<form id="form_input" name="form_input" method="get" >
-			Keyword:<input id="m" autocomplete="off" /><button onclick="setkeyword()">send</button>
+			Keyword: <input id="m" autocomplete="off" /> <button onclick="setkeyword()">send</button>
 		</form>
 
 		<script>
 			var socket = io('http://localhost:2323');
 			function setkeyword() {
-				socket.on('connect', function(data) {
-					socket.emit('set_keyword',  {'message': String.fromCharCode(e.charCode)});
+				socket.emit('setkw',  function(data) {
+					console.log(data);
 				});
 			}
 			
@@ -39,7 +39,7 @@
 			});
 		</script>
 
-		<br /><br />
+		<br />
 		
 		<div id="googleMap" style="width:1400px;height:720px;"></div>
 	</body>
