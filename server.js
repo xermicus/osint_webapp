@@ -8,9 +8,9 @@ app.get('/', function(req, res){
 });
 
 io.on('connection', function(socket) {
-	console.log('Client connected...');
-	socket.on('set_keyword', function(data) {
-		console.log(data.message);
+	//console.log('Client connected...');
+	socket.on('setkw', function(data) {
+		console.log('got data :-)');
 	});
 
 	var interval = setInterval(function () {
