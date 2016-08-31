@@ -4,43 +4,43 @@
 		<title>Luxeria OSINT</title>
 		<!--<link rel="stylesheet" type="text/css" href="stylesheets/style.css">-->
 		
-		<script src="http://maps.googleapis.com/maps/api/js"></script>
-		<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-		<script>
-			var dots = [];
-			function initialize() {
-				var mapProp = {
-				center:new google.maps.LatLng(51.508742,-0.120850),
-				zoom:5,
-				mapTypeId:google.maps.MapTypeId.ROADMAP
-				};
-  			var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
-			}			
-			google.maps.event.addDomListener(window, 'load', initialize);
-		</script>
-	</head>
-	
-	<body>
-		<form id="form_input" name="form_input" method="get" >
-			Keyword: <input id="m" autocomplete="off" /> <button onclick="setkeyword()">send</button>
-		</form>
+		                <script src="http://maps.googleapis.com/maps/api/js"></script>
+                <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+                <script>
+                        var dots = [];
+                        function initialize() {
+                                var mapProp = {
+                                center:new google.maps.LatLng(51.508742,-0.120850),
+                                zoom:5,
+                                mapTypeId:google.maps.MapTypeId.ROADMAP
+                                };
+                        var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
+                        }                       
+                        google.maps.event.addDomListener(window, 'load', initialize);
+                </script>
+        </head>
 
-		<script>
-			var socket = io('http://localhost:2323');
-			function setkeyword() {
-				socket.emit('setkw',  function(data) {
-					console.log(data);
-				});
-			}
-			
-			socket.on("get", function(tweet) {  
-				alert(tweet);
-			});
-		</script>
+        <body>
+                <form id="form_input" name="form_input"  method="get" >
+                        Keyword: <input id="input" autocomplete="off" /> <button onclick="setkeyword()">send</button>
+                </form>
 
-		<br />
-		
-		<div id="googleMap" style="width:1400px;height:720px;"></div>
-	</body>
+                <script>
+                        var socket = io('http://localhost:2323');
+                        //var socket = io('https://09f9.org:2323);
+                        function setkeyword() { 
+                                var kw = document.getElementById('input').value;
+                                socket.emit('setkw', kw);
+                        }
+                        
+                        socket.on("get", function(tweet) {  
+                                alert(tweet);
+                        });
+                </script>
+
+                <br /><br />
+
+                <div id="googleMap" style="width:1400px;height:720px;"></div>
+        </body>
 </html>
