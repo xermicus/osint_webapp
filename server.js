@@ -16,17 +16,22 @@ app.get('/', function(req, res){
         res.sendFile(__dirname + '/index.html');
 });
 
+app.get('/client.js', function(req, res) {
+	res.sendFile(__dirname + '/client.js');
+});
+
+// socket.io
 io.on('connection', function(socket) {
         console.log('Client connected...');
         // get data
         socket.on('setkw', function(data) {
-                //console.log('got: '+data);
+                console.log('got: '+data);
                 r.set('keyword', data, redis.print);
         });
 
         // send data
         var interval = setInterval(function () {
-                //socket.emit('get', 'hi');
+                socket.emit('get', 'hi');
         }, 3000);
 }); 
     
