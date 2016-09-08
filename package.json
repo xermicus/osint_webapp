@@ -5,6 +5,7 @@
   "dependencies": {
     "express": "4.10.2",
     "socket.io": "1.2.0",
-    "redis": "2.6.2"
+    "redis": "2.6.2",
+    "@google/maps@0.1.0"
   }
 }

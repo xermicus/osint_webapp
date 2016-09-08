@@ -1,4 +1,5 @@
-var app = require('express')();
+var express = require('express');
+var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var googleMapsClient = require('@google/maps').createClient({
@@ -18,9 +19,7 @@ app.get('/', function(req, res){
         res.sendFile(__dirname + '/index.html');
 });
 
-app.get('/client.js', function(req, res) {
-	res.sendFile(__dirname + '/client.js');
-});
+app.use(express.static('res'));
 
 // socket.io
 io.on('connection', function(socket) {
@@ -35,32 +34,17 @@ io.on('connection', function(socket) {
         var interval = setInterval(function () {
                 r.setnx('keyword', 'unset');
 		pk = 0
-		txt = ''
-		loc = ''
 		r.spop(['done'], function(err, reply) { 
+			if (err) { console.log(err) } else if (reply) {
 			pk = reply;
-			console.log(reply);
 			r.hgetall(pk.toString(), function(err, reply) {
-				if(err) { console.log(err) } else {
-					txt = reply.text;
-					loc = reply.location;
-					rep = reply.class;
-					console.log(txt);
-					//console.log(loc);
-					console.log(rep);
-					googleMapsClient.geocode({
-					address: loc
-					}, function(err, response) {
-						if (!err) {
-							console.log(response.json.results);
-						}
-					});
+				if(err) { console.log(err) } else if (reply) {
+					socket.emit('get', reply);
 				}
 			});
+			}
 		});
 		
-		//loc = r.hget(pk, 'location', redis.print);
-		//socket.emit('get', 'hi');
 
         }, 3000);
 }); 
